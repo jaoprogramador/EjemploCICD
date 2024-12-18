@@ -4,6 +4,11 @@ module.exports = {
     "es6": true,
     "jest/globals": true
   },
+  "settings": {
+    "react": {
+      "version": 'detect',
+    },
+  },
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended"
@@ -19,6 +24,8 @@ module.exports = {
     "react", "jest"
   ],
   "rules": {
+    "semi": ['error', 'always'], 
+    "quotes": ['error', 'single'], 
     "indent": [
       "error",
         2
