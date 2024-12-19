@@ -1,0 +1,34 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches:
+      - main  # O la rama que desees usar para el despliegue
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Paso 1: Verifica que el código se haya clonado correctamente
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Paso 2: Configura Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # O la versión que necesites
+
+      # Paso 3: Instalar dependencias
+      - name: Install dependencies
+        run: npm install
+
+      # Paso 4: Ejecuta el script de build
+      - name: Build the app
+        run: npm run build
+
+      # Paso 5: Despliega a Render utilizando la API
+      - name: Trigger Render deploy
+        run: |
+          curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.API_KEY_POKEMON }}
