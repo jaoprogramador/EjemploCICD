@@ -10,6 +10,10 @@ app.get('/health', (req, res) => {
   console.log('POKEMON:::health::ok');
   res.send('ok');
 });
+app.get('/hola', (req, res) => {
+  console.log('POKEMON:::hola::adios');
+  res.send('adios');
+});
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);
 });
