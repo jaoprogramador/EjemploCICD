@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main  # O la rama que desees usar para el despliegue
+  pull_request:
+    branches:
+      - main  # Esto asegura que el flujo se ejecute cuando se cree o actualice un pull request hacia main
+    types: [opened, synchronize]  # Ejecuta el flujo al abrir o actualizar un PR
 
 jobs:
   deploy:
@@ -29,6 +33,8 @@ jobs:
         run: npm run build
 
       # Paso 5: Despliega a Render utilizando la API
+      # Solo se ejecuta cuando el evento es un push a main
       - name: Trigger Render deploy
+        if: ${{ github.event_name == 'push' }}  
         run: |
           curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.API_KEY_POKEMON }}
