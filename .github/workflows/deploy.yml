@@ -38,3 +38,15 @@ jobs:
         if: ${{ github.event_name == 'push' }}  
         run: |
           curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.API_KEY_POKEMON }}
+
+  tag_release:
+    needs: [deploy]  # Esto asegura que el tag solo se cree después de que el deploy haya sido exitoso
+    runs-on: ubuntu-latest
+    steps:
+      # Paso 1: Bump version y etiquetar el release
+      - name: Bump version and push tag
+        if: ${{ github.event_name == 'push' }}  # Solo ejecuta este paso cuando sea un push
+        uses: anothrNick/github-tag-action@1.64.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Token de GitHub para autenticar la acción
+
